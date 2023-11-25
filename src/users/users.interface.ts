@@ -1,4 +1,6 @@
-interface UsersInterface {
+import { Model } from "mongoose";
+
+export interface UsersInterface {
     userId: Number;
     username: String;
     password: String;
@@ -24,4 +26,6 @@ interface UsersInterface {
     ];
 }
 
-export default UsersInterface;
+export interface usersModel extends Model<UsersInterface> {
+    isExistUser(userId: Number): Promise<UsersInterface | boolean | null>;
+}
