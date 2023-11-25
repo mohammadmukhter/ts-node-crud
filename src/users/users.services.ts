@@ -1,10 +1,17 @@
+import bcrypt from "bcryptjs";
 import { UsersInterface } from "./users.interface";
 import Users from "./users.model";
 
 // create a single user services function
 const createUsersToDB = async (userData: UsersInterface) => {
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPass = bcrypt.hashSync(userData.password as string, salt);
+    userData.password = hashedPass;
+
     const userCreated = await Users.create(userData);
-    return userCreated;
+
+    const { password, ...data } = userCreated.toObject();
+    return data;
 };
 
 // get all users services function
