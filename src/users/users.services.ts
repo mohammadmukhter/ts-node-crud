@@ -38,9 +38,16 @@ const updateSingleUser = async (userId: Number, userData: UsersInterface) => {
     return updatedUser;
 };
 
+// delete a single user services function
+const deleteUser = async (userId: Number) => {
+    const deletedUser = await Users.deleteOne({ userId: userId });
+    return deletedUser;
+};
+
 export const usersServices = {
     createUsersToDB,
     getAllUsers,
     getSingleUser,
     updateSingleUser,
+    deleteUser,
 };
