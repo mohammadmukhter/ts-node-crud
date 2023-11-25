@@ -51,10 +51,33 @@ const deleteUser = async (userId: Number) => {
     return deletedUser;
 };
 
+// order a product
+const orderProductByUser = async (userId: Number, orderData: object) => {
+    const getUser: any = await Users.findOne({ userId });
+    if (getUser?.orders.length > 0) {
+        const orderedProduct = await Users.updateOne(
+            { userId: userId },
+            { $push: { orders: orderData } }
+        );
+        return orderedProduct;
+    } else {
+        const orderedProduct = await Users.updateOne(
+            { userId: userId },
+            {
+                $setOnInsert: { orders: [] },
+                $push: { orders: orderData },
+            },
+            { upsert: true }
+        );
+        return orderedProduct;
+    }
+};
+
 export const usersServices = {
     createUsersToDB,
     getAllUsers,
     getSingleUser,
     updateSingleUser,
     deleteUser,
+    orderProductByUser,
 };

@@ -8,5 +8,6 @@ router.get("/", usersController.getAllUsers);
 router.get("/:userId", usersController.getSingleUser);
 router.put("/:userId", usersController.updateSingleUser);
 router.delete("/:userId", usersController.deleteSingleUser);
+router.put("/:userId/orders", usersController.orderProduct);
 
 export default router;

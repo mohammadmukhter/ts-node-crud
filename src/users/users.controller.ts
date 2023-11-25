@@ -171,10 +171,53 @@ const deleteSingleUser = async (req: Request, res: Response) => {
     }
 };
 
+// get a single user
+const orderProduct = async (req: Request, res: Response) => {
+    try {
+        const userId: unknown = req.params.userId;
+
+        // check is user exist or not
+        const isExistUser = await Users.isExistUser(userId as Number);
+        if (!isExistUser) {
+            res.status(404).json({
+                success: false,
+                message: "User not found",
+                error: {
+                    code: 404,
+                    description: "User not found!",
+                },
+            });
+        } else {
+            const orderProduct = await usersServices.orderProductByUser(
+                userId as Number,
+                req.body
+            );
+            console.log(orderProduct);
+
+            res.status(200).json({
+                success: true,
+                message: "Order created successfully!",
+                data: null,
+            });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            message: "Server side error",
+            error: {
+                code: 500,
+                description: "server side error",
+            },
+        });
+    }
+};
+
 export const usersController = {
     createUser,
     getAllUsers,
     getSingleUser,
     updateSingleUser,
     deleteSingleUser,
+    orderProduct,
 };
