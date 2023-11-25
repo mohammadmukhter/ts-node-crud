@@ -11,6 +11,6 @@ app.get("/", (req: Request, res: Response) => {
     res.send("app running");
 });
 
-app.use("/users", usersRoutes);
+app.use("/api/users", usersRoutes);
 
 export default app;
